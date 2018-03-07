@@ -155,9 +155,9 @@
 		\begin{columns}[T]
 			
 			\column{0.48\textwidth}
-			
+			\vspace{0.1cm}
 			\textbf{Matrix representation}
-			\vspace{0.6cm}
+			\vspace{0.5cm}
 			$$
 			T = 
 			\begin{pmatrix}
@@ -169,7 +169,7 @@
 			%\end{block}%
 			
 			\column{0.48\textwidth}
-			
+			\vspace{0.1cm}
 			\textbf{Graph representation}
 			%\begin{block}{Graph representation}
 				\begin{center}
@@ -247,15 +247,15 @@
 	The transition matrix can be computed the same way as before, only considering all subsequent pairs in the sequence of states.\\}
 	
 	\uncover<2->{
-		The transition matrix will be of size $N(N-1) \times N(N-1)$, where $N$ is the cardinality of the set of possible states, and it will relate pairs of states instead of single states.\\
+		In case of a second order chain, the transition matrix will be of size $N(N-1) \times N(N-1)$, where $N$ is the cardinality of the set of possible states, and it will relate pairs of states instead of single states.\\
 		
 		$$
 			T = \begin{pmatrix} 
    	 		p_{(11)(11)} & \dots  & p_{(11)(1n)}\\
-    			\vdots & \ddots  &\\
+    			\vdots & \ddots  & \\
     			p_{(n1)(11)} &    &    p_{(nn)(nn)} 
     			\end{pmatrix}
-    			$$
+    		$$
 	}
 	\end{frame}
 		
@@ -264,7 +264,7 @@
 	\begin{frame}{Code and demo!! :D}
 	
 	\begin{center}
-	\href{localhost:8888/tree}{\structure{\Huge{Demo!}}}
+	\href{http://localhost:8888/notebooks/notebooks/Pycon9_MarkovChains.ipynb}{\structure{\Huge{Demo!}}}
 	\end{center}
 	\end{frame}
 	
@@ -278,7 +278,7 @@
 	\end{frame}	
 	
 	
-	\begin{frame}
+	\begin{frame}{You've made it through!!}
 		\begin{center}
 		\Huge{Thanks for your attention!\\}
 		\href{mailto:pietro_mascolo@optum.com}{\structure{\large{pietro\_mascolo@optum.com}}}
