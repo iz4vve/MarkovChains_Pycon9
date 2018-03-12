@@ -9,7 +9,7 @@ import seaborn as sns
 from ipywidgets import *
 
 from jupyterthemes import jtplot
-jtplot.style(theme='grade3')
+jtplot.style(theme='grade3', figsize=(16, 10))
 
 
 def make_sequences(df, elements_field="new_elements", exits_field="new_exits"):
