@@ -13,6 +13,18 @@ from jupyterthemes import jtplot
 jtplot.style(theme='grade3', figsize=(16, 10))
 
 
+###################  COLOUR MAPS  ######################
+from matplotlib.colors import LinearSegmentedColormap
+
+optum_cmap = LinearSegmentedColormap.from_list(
+    'optum', ["#E87722", "#A32A2E", "#422C88", "#078576", "#627D32"]
+)
+optum_cmap_simple = LinearSegmentedColormap.from_list(
+    'optum', ["#E87722", "#078576"]
+)  # for gradients
+########################################################
+
+
 def make_sequences(df, elements_field="new_elements", exits_field="new_exits"):
     """
     Generates sequences of item-exit_code and yields them
