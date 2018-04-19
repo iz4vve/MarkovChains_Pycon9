@@ -235,8 +235,10 @@
     			\uncover<2>{
     				And given an initial state, the next state transition probabilities are given by:
     				$$
-    				\mathbf{S_i^T} \times \mathbf{T} = \mathbf{S_j}
+    				 \mathbf{S_{i+1}} = \mathbf{S_i^T} \times \mathbf{T}
     				$$
+    				
+    				and both $S_i$ and $S_{i+1}$ can be either a definite state (vector of all zeros and a single $1$) or a probabilistic state (vector of decimals summing up to $1$).
     				
 %    				and for $n$ time steps (for square transition matrices):
 %    				$$
