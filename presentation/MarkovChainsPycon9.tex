@@ -8,6 +8,7 @@
 \usepackage{hyperref}
 %\usepackage{listings}
 \usepackage{minted}
+\usepackage{soul}
 
 \usepackage{pgfpages}
 \usepackage{ragged2e}
@@ -30,7 +31,7 @@
 %\setbeamertemplate{navigation symbols}{} 
 %\logo{\includegraphics[width=0.2\textwidth]{imgs/optum_logo.jpg}} 
 \institute[Optum]{\textbf{\Large{Optum Ireland Ltd.}}} 
-\date{\tiny{April 22, 2018}}
+\date{\tiny{April 21, 2018}}
 
 \definecolor{optum-orange}{RGB}{232, 119, 34}
 \definecolor{optum-green}{RGB}{7,133,118}
@@ -57,9 +58,6 @@
 		\titlepage
 	\end{frame}
 
-%\begin{frame}
-%\tableofcontents
-%\end{frame}
 
 	\section{Introduction}
 	
@@ -70,33 +68,40 @@
 			\item Introduction;
 			\item definition and representation of Markov Chains;
 			\item how Markov Chains can be used;
-			\item a bit of Maths;
-			\item a bit of code...
+			\item a bit of maths;
+			\item a bit of code;
+			\item a small demo...
 		\end{itemize}
 		
-		\begin{center}
-		\vspace{0.5cm}
-		Slides and code:\\
-		\href{http://bit.ly/2H8giAW}{\structure{http://bit.ly/2H8giAW}}
-		\end{center}
 	\end{frame}
 
 	\begin{frame}{Who I am}
 		\begin{columns}
 			\column{0.5\textwidth}
-			\begin{itemize}
-   				\item Physicist;
-   				\item Data Scientist;
+			\only<1>{\begin{itemize}
+   				\item \textbf{Mad scientist};
    				\item \textbf{Python enthusiast};
    				\item \textbf{Kotlin}/Scala practitioner;
    				\item \textbf{Golang} padawan;
    				\item Ham Radio Operator (EI/IZ4VVE);
-   				\item Hiker;
+   				\item Mountain hiker;
    				\item Karateka;
    				\item Amateur Photographer;
    				\item ...
 			\end{itemize}
-   			
+   			}
+   			\only<2>{\begin{itemize}
+   				\item \textbf{\st{Mad scientist} Physicist};
+   				\item \textbf{Python enthusiast};
+   				\item \textbf{Kotlin}/Scala practitioner;
+   				\item \textbf{Golang} padawan;
+   				\item Ham Radio Operator (EI/IZ4VVE);
+   				\item Mountain hiker;
+   				\item Karateka;
+   				\item Amateur Photographer;
+   				\item ...
+			\end{itemize}
+   			}
    			\column{0.5\textwidth}
    			\begin{flushright}
    			
@@ -469,7 +474,14 @@
 	\begin{frame}{You've made it through!!}
 		\begin{center}
 		\Huge{Thanks for your attention!\\}
-		\href{mailto:pietro_mascolo@optum.com}{\structure{\large{pietro\_mascolo@optum.com}}}
+		\footnotesize\href{mailto:pietro_mascolo@optum.com}{\structure{\large{pietro\_mascolo@optum.com}}}\\
+		\vspace{0.2cm}
+		\footnotesize \href{https://twitter.com/iz4vve}{\structure{@iz4vve}}
+
+		\vspace{1.5cm}
+		\small
+		Slides and code:
+		\href{http://bit.ly/2H8giAW}{  \structure{http://bit.ly/2H8giAW}}
 		\end{center}
 	\end{frame}
 
