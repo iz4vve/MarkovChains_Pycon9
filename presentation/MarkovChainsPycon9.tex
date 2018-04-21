@@ -6,10 +6,18 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{hyperref}
+%\usepackage{listings}
+\usepackage{minted}
 
 \usepackage{pgfpages}
 \usepackage{ragged2e}
 \usepackage{tikz}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
 \usetikzlibrary{automata,arrows,positioning,calc}
 
 \newif\ifplacelogo % create a new conditional
@@ -118,7 +126,9 @@
 	\begin{frame}{Markov Chains - definition and representation 1/2}
 		\only<1>{
 			\begin{customDefinition}
-				A [first order] Markov chain is "a stochastic model describing a sequence of possible events in which the probability of each event depends only on the state attained in the previous event."\footnotemark
+			A Markov chain is collection of random variables ${X_t}$ having the property that, given the present, the future is conditionally independent of the past.\\
+			$$P\left(X_t = j | X_0 = i_0, X_1 = i_1, ..., X_{t-1} = i_{t-1} \right) = P\left( X_t = j | X_{t-1} = i_{t-1} \right)$$
+%				A [first order] Markov chain is "a stochastic model describing a sequence of possible events in which the probability of each event depends only on the state attained in the previous event."\footnotemark
 			\end{customDefinition}
 		}
 		\only<2>{
@@ -129,7 +139,9 @@
 		}
 		\only<3->{
 			\begin{customDefinition}
-				A [first order] Markov chain is "a stochastic model describing a sequence of possible events in which the probability of each event depends only on the state attained in the previous event."\footnotemark
+			A Markov chain is collection of random variables ${X_t}$ having the property that, given the present, the future is conditionally independent of the past.\\
+			$$P\left(X_t = j | X_0 = i_0, X_1 = i_1, ..., X_{t-1} = i_{t-1} \right) = P\left( X_t = j | X_{t-1} = i_{t-1} \right)$$
+%				A [first order] Markov chain is "a stochastic model describing a sequence of possible events in which the probability of each event depends only on the state attained in the previous event."\footnotemark
 			\end{customDefinition}
 		}
 		\only<3>{
@@ -152,7 +164,7 @@
 			\end{itemize}
 		}
 		
-		\footnotetext[1]{From US English dictionary by Oxford Dictionaries.}
+		%\footnotetext[1]{From US English dictionary by Oxford Dictionaries.}
 		
 	\end{frame}
 	
@@ -268,11 +280,177 @@
     		$$
 	}
 	\end{frame}
+	
+	\section{Implementation}
+	
+	\begin{frame}{Caveat}
+	\begin{block}{WARNING!}
+	
+	\alert{For clarity, I will omit a lot of stuff from the code (error handling, correct matrix handling, logging, dosctrings, ...).\\
+	You should NOT run the code as is: \textsc{it won't work!}}
+		\end{block}
+
+	\end{frame}
+	
+	\begin{frame}[fragile]{Markov Chain object implementation}
+	Let's start simple, shall we?
+	\pause
+	\vspace{0.5cm}
 		
+	\begin{minted}{python}
+	class MarkovChain(object):
+		pass
+	\end{minted}
+	
+	\pause
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{imgs/easy.jpg}
+	\end{center}
+	\end{frame}
+	
+	\begin{frame}[fragile]{Initialisation}
+		We need to initialise the number of states and the transition matrix:
+	\pause
+		
+	\begin{minted}[tabsize=4,obeytabs]{python}
+	def __init__(self, n_states, order=1):
+		self.number_of_states = n_states
+		self.order = order
+    \end{minted}
+    
+    \pause
+    \begin{minted}[tabsize=4,obeytabs]{python}
+        self.possible_states = {
+            j: i for i, j in
+            enumerate(
+            		itertools.product(range(n_states),
+            		repeat=order)
+            	)
+        }
+	\end{minted}
+	\pause
+	\begin{minted}[tabsize=4,obeytabs]{python}
+        self.transition_matrix = sparse.dok_matrix((
+            (len(self.possible_states), len(self.possible_states))
+        ), dtype=np.float64)
+	\end{minted}
+	
+	\end{frame}
+	
+	\begin{frame}[fragile]{Transition update}
+	Having initialised our matrix $T$, we need to update it when we examine a sequence:
+	\pause
+	\begin{minted}[tabsize=4,obeytabs]{python}
+	def update_transition_matrix(self, states_sequence):
+
+		visited_states = [
+			states_sequence[i: i + self.order]
+			for i in range(len(states_sequence) - self.order + 1)
+		]
+	\end{minted}
+	\pause
+	\begin{minted}[tabsize=4,obeytabs]{python}
+		for state_index, i in enumerate(visited_states):
+			self.transition_matrix[
+				self.possible_states[tuple(i)],
+				self.possible_states[tuple(visited_states[
+					state_index + self.order
+				])]
+			] += 1
+	\end{minted}
+
+	\end{frame}
+	
+	\begin{frame}
+	\only<1>{\Large Something is mising though...}
+	\only<2>{\Large Something is missing though...}
+	\only<3>{\Large Something is still missing though...}
+	\end{frame}
+	
+	\begin{frame}[fragile]{Normalisation}
+	This matrix represents probabilities: \textbf{ROWS MUST SUM TO 1}!
+	\pause
+	\vspace{0.5cm}
+	\begin{minted}[tabsize=4,obeytabs]{python}
+		def normalise_transitions(self):
+			self.transition_matrix = preprocessing.normalize(
+				self.transition_matrix, norm="l1"
+			)
+	\end{minted}
+	
+
+	\end{frame}
+	
+	\begin{frame}[fragile]{Fit}
+	Calling update\_transition\_matrix on a sequence of sequences:
+	\pause
+	\vspace{0.5cm}
+	\begin{minted}[tabsize=4,obeytabs]{python}
+		def fit(self, state_sequences):
+			for index, sequence in enumerate(state_sequences):
+				self.update_transition_matrix(sequence)
+			self.normalize_transitions()
+	\end{minted}
+
+	\end{frame}
+	
+	\begin{frame}{Predicting next state}
+	\only<1-2>{Now we need the predict method...}
+	\only<2>{How do we implement that?}
+	\uncover<3->{
+		Remember:
+		$$S_{i+1} = S_i^T \times T$$
+	}
+	\uncover<4->{But what about a generic number of time steps?}
+	\only<4>{
+		$$S_{i+N} = ???$$
+	}
+	\only<5>{
+		$$S_{i+N} = S_{i+N-1}^T \times T$$
+	}
+	\only<6->{
+		$$S_{i+N} = \left(S_{i+N-2}^T \times T\right)^T \times T$$
+	}
+	\only<7->{
+	We have to take this all the way down to $S_i$.\\
+	It looks a bit unwieldy to implement... \\
+	\textbf{Oh, wait!} \\
+	If we \textbf{DO} take it all the way to $S_i$ we're only left with $T$ multiplied by itself $N$ times!
+	}
+	\uncover<8>{
+		$$S_{i+N} = S_i^T \times T^N$$
+		
+		Now, \textbf{this} we can implement :D
+	}
+	
+	\end{frame}
+	
+	\begin{frame}[fragile]{Predicting next state}
+	\begin{minted}[tabsize=4,obeytabs]{python}
+		def predict_state(self, current_state, num_steps=1):
+			_next_state = sparse.csr_matrix(current_state).dot(
+				np.power(self.transition_matrix, num_steps)
+			)
+
+			return _next_state
+	\end{minted}
+	\vspace{1cm}
+	There...
+	\end{frame}
+	
+	
+	\begin{frame}{There we go!}
+	And that's it for the (simplified) implementation... We're good to go!
+	\begin{center}
+	\includegraphics[width=0.9\textwidth]{imgs/thumbsup.jpg}
+	\end{center}
+	
+	\end{frame}
+		
+	
 	\section{Code and live demo}
 	
 	\begin{frame}{Code and demo!! :D}
-	
 	\begin{center}
 	\href{http://localhost:8888/notebooks/notebooks/Pycon9_MarkovChains.ipynb}{\structure{\Huge{Demo!}}}
 	\end{center}
