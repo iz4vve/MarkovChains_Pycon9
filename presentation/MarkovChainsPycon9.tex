@@ -252,14 +252,14 @@
     			\uncover<2>{
     				And given an initial state, the next state transition probabilities are given by:
     				$$
-    				 \mathbf{S_{i+1}} = \mathbf{S_i^T} \times \mathbf{T}
+    				 \mathbf{S_{i+1}} = \mathbf{S_i} \times \mathbf{T}
     				$$
     				
     				and both $S_i$ and $S_{i+1}$ can be either a definite state (vector of all zeros and a single $1$) or a probabilistic state (vector of decimals summing up to $1$).
     				
 %    				and for $n$ time steps (for square transition matrices):
 %    				$$
-%    				\mathbf{S_i^T} \times \mathbf{T}^n = \mathbf{S_j}
+%    				\mathbf{S_i} \times \mathbf{T}^n = \mathbf{S_j}
 %    				$$
     			}
 		}
@@ -404,17 +404,17 @@
 	\only<2>{How do we implement that?}
 	\uncover<3->{
 		Remember:
-		$$S_{i+1} = S_i^T \times T$$
+		$$S_{i+1} = S_i \times T$$
 	}
 	\uncover<4->{But what about a generic number of time steps?}
 	\only<4>{
 		$$S_{i+N} = ???$$
 	}
 	\only<5>{
-		$$S_{i+N} = S_{i+N-1}^T \times T$$
+		$$S_{i+N} = S_{i+N-1} \times T$$
 	}
 	\only<6->{
-		$$S_{i+N} = \left(S_{i+N-2}^T \times T\right)^T \times T$$
+		$$S_{i+N} = \left(S_{i+N-2} \times T\right) \times T$$
 	}
 	\only<7->{
 	We have to take this all the way down to $S_i$.\\
@@ -423,7 +423,7 @@
 	If we \textbf{DO} take it all the way to $S_i$ we're only left with $T$ multiplied by itself $N$ times!
 	}
 	\uncover<8>{
-		$$S_{i+N} = S_i^T \times T^N$$
+		$$S_{i+N} = S_i \times T^N$$
 		
 		Now, \textbf{this} we can implement :D
 	}
